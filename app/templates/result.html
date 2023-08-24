@@ -1,0 +1,176 @@
+<!doctype html>
+<!-- https://github.com/neo4j-contrib/neovis.js/blob/master/examples/advanced-example.html -->
+<html>
+
+<p>{{username}}<br></p>
+
+<head>
+    <title>Neovis.js Simple Example</title>
+    <style type="text/css">
+        html,
+        body {
+            font: 16pt arial;
+        }
+
+        #viz {
+            width: 1600px;
+            height: 800px;
+            border: 1px solid lightgray;
+            font: 22pt arial;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/neovis.js@2.0.2"></script>
+</head>
+
+<body onload="draw()">
+    <div id="viz"></div>
+    Cypher query: <textarea rows="4" cols=50 id="cypher"></textarea><br>
+    <input type="submit" value="Submit" id="reload">
+    <input type="submit" value="Stabilize" id="stabilize">
+</body>
+
+<script type="text/javascript">
+
+    let neoViz;
+
+    function draw() {
+        const config = {
+            containerId: "viz",
+            neo4j: {
+                // neo4jの接続設定
+                serverUrl: "neo4j://localhost:7687",
+                serverUser: "neo4j",
+                serverPassword: "fumiaki1039",
+            },
+            visConfig: {
+                nodes: {
+                    borderWidth: 2,
+                    borderWidthSelected: 5,
+                },
+                edges: {
+                    // 線はグレーの矢印にする
+                    color: 'gray',
+                    arrows: {
+                        to: { enabled: true }
+                    },
+                },
+                physics :{
+                    barnesHut: {
+                        gravitationalConstant: -7000,
+                        springLength: 300,
+                        //avoidOverlap: 0.5
+                    },
+                    minVelocity: 0.75
+                }
+            },
+            labels: {
+                step0: {
+                    label: "name",
+                    [NeoVis.NEOVIS_ADVANCED_CONFIG]: {
+                        // visのconfig設定を追加する
+                        function: {
+                            // ツールチップに情報を表示する
+                            title: NeoVis.objectToTitleHtml,
+                        },
+                        static: {
+                            // ノードの背景色
+                            color: "#beaed4",
+                        },
+                    }
+                },
+                step1: {
+                    label: "name",
+                    [NeoVis.NEOVIS_ADVANCED_CONFIG]: {
+                        function: {
+                            // ツールチップに情報を表示する
+                            title: NeoVis.objectToTitleHtml,
+                        },
+                        static: {
+                            // ノードの背景色
+                            color: "#fdc086",
+                            // ノードの形を四角にする
+                            shape: 'box',
+                        }
+                    }
+                },
+                step2: {
+                    label: "name",
+                    [NeoVis.NEOVIS_ADVANCED_CONFIG]: {
+                        // visのconfig設定を追加する
+                        function: {
+                            // ツールチップに情報を表示する
+                            title: NeoVis.objectToTitleHtml,
+                        },
+                        static: {
+                            // ノードの背景色
+                            color: "#7fffd4",
+                            shape: 'box',
+                        },
+                    }
+                },
+                step4: {
+                    label: "name",
+                    [NeoVis.NEOVIS_ADVANCED_CONFIG]: {
+                        function: {
+                            title: NeoVis.objectToTitleHtml,
+                        },
+                        static: {
+                            color: "#e5ff7f",
+                            shape: 'box',
+                        },
+                    }
+                }
+            },
+            relationships: {
+                Relation_type: {
+                    label: "name",
+                    [NeoVis.NEOVIS_ADVANCED_CONFIG]: {
+                        function: {
+                            // ツールチップに情報を表示する
+                            title: NeoVis.objectToTitleHtml
+                        },
+                    }
+                },
+                things: {
+                    label: "name",
+                    [NeoVis.NEOVIS_ADVANCED_CONFIG]: {
+                        function: {
+                            // ツールチップに情報を表示する
+                            title: NeoVis.objectToTitleHtml
+                        },
+                    }
+                },
+            },
+            // 初期で実行するCypherクエリ
+            initialCypher: "MATCH (n:{{username}}) OPTIONAL MATCH (n)-[r]-() RETURN n,r"
+        };
+
+        viz = new NeoVis.default(config);
+        viz.render();
+        console.log("viz");
+    }
+
+    $('#reload').click(function () {
+        // Cypher query に入力されたクエリを読み込んで再描画する
+        var cypher = $('#cypher').val();
+
+        if (cypher.length > 3) {
+            viz.renderWithCypher(cypher);
+        } else {
+            console.log('reload');
+            viz.reload();
+
+        }
+
+    });
+
+    $('#stabilize').click(function () {
+        // うねうねと動く描画を停止する
+        viz.stabilize();
+    });
+
+</script>
+</html>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ReBaLe　Step1</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/signup.css" />
+</head>
+<body>
+<div class="container">
+    <h1>ReBaLe　Step1　「ばらす」</h1>
+    <form action="{{ url_for('home1') }}" method="POST" autocomplete="off" style="form-container">
+        <label for="challenge">気になる単語を入力: </label>
+        <input type="text" name="challenge">
+        <input type="submit" value="送信" class="button">
+    </form>
+</div>
+</body>
+</html>

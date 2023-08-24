@@ -1,0 +1,73 @@
+from py2neo import Graph, Node, Relationship
+
+# word_stock = ['天気予報', '交通情報', '気象情報', '明日の天気', '道路交通情報', 'ラジオショッピング', 'ローカルニュース', '天気', '今日の天気', 'お天気']
+
+def create_tree(word_stock):
+
+    graph = Graph("bolt://localhost:7687", auth=("neo4j", "fumiaki1039"))
+    node1 = Node("step0", name=word_stock[0])
+    node2 = Node("step1", name=word_stock[1])
+    node3 = Node("step1", name=word_stock[2])
+    node4 = Node("step1", name=word_stock[3])
+    node5 = Node("step2", name=word_stock[4])
+    node6 = Node("step2", name=word_stock[5])
+    node7 = Node("step2", name=word_stock[6])
+    node8 = Node("step2", name=word_stock[7])
+    node9 = Node("step2", name=word_stock[8])
+    node10 = Node("step2", name=word_stock[9])
+
+    graph.create(node1)
+    graph.create(node2)
+    graph.create(node3)
+    graph.create(node4)
+    graph.create(node5)
+    graph.create(node6)
+    graph.create(node7)
+    graph.create(node8)
+    graph.create(node9)
+    graph.create(node10)
+
+    relation1 = Relationship(node1, "Relation_type", node2)
+    relation2 = Relationship(node1, "Relation_type", node3)
+    relation3 = Relationship(node1, "Relation_type", node4)
+    relation4 = Relationship(node2, "Relation_type", node5)
+    relation5 = Relationship(node2, "Relation_type", node6)
+    relation6 = Relationship(node3, "Relation_type", node7)
+    relation7 = Relationship(node3, "Relation_type", node8)
+    relation8 = Relationship(node4, "Relation_type", node9)
+    relation9 = Relationship(node4, "Relation_type", node10)
+
+    tx = graph.begin()
+
+    tx.create(node1)
+    tx.create(node2)
+    tx.create(node3)
+    tx.create(node4)
+    tx.create(node5)
+    tx.create(node6)
+    tx.create(node7)
+    tx.create(node8)
+    tx.create(node9)
+    tx.create(node10)
+
+    tx.create(relation1)
+    tx.create(relation2)
+    tx.create(relation3)
+    tx.create(relation4)
+    tx.create(relation5)
+    tx.create(relation6)
+    tx.create(relation7)
+    tx.create(relation8)
+    tx.create(relation9)
+
+    tx.commit()
+
+    # graph.create(relation1)
+    # graph.create(relation2)
+    # graph.create(relation3)
+    # graph.create(relation4)
+    # graph.create(relation5)
+    # graph.create(relation6)
+    # graph.create(relation7)
+    # graph.create(relation8)
+    # graph.create(relation9)
