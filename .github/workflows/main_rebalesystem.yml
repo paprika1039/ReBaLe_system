@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'ReBaLeSystem'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9CF8E320CE264623B3030F5CE7761319 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4016237F183049ECAB434990D1FF4756 }}
